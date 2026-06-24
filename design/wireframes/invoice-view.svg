@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1100">
+  <rect width="800" height="1100" fill="#fff"/>
+  <text x="48" y="64" font-family="Arial" font-size="24" fill="#111827">Invoice</text>
+  <text x="48" y="100" font-family="Arial" font-size="14" fill="#6b7280">From: Business name</text>
+  <text x="48" y="122" font-family="Arial" font-size="14" fill="#6b7280">To: Customer name</text>
+
+  <!-- Invoice meta -->
+  <rect x="48" y="140" width="704" height="96" fill="#f9fafb" stroke="#e6e7ea"/>
+  <text x="64" y="168" font-family="Arial" font-size="13" fill="#374151">Invoice #: INV-0012</text>
+  <text x="64" y="188" font-family="Arial" font-size="13" fill="#374151">Date: 2026-06-01</text>
+  <text x="64" y="208" font-family="Arial" font-size="13" fill="#374151">Due: 2026-07-01</text>
+
+  <!-- Table -->
+  <rect x="48" y="260" width="704" height="380" fill="#fff" stroke="#e6e7ea"/>
+  <g font-family="Arial" font-size="13" fill="#374151">
+    <text x="72" y="292">Design services</text>
+    <text x="420" y="292">2</text>
+    <text x="520" y="292">₹ 2,000</text>
+    <text x="660" y="292">₹ 4,720</text>
+
+    <text x="72" y="324">Hosting</text>
+    <text x="420" y="324">12</text>
+    <text x="520" y="324">₹ 200</text>
+    <text x="660" y="324">₹ 2,832</text>
+  </g>
+
+  <!-- Totals -->
+  <rect x="420" y="664" width="332" height="140" fill="#f9fafb" stroke="#e6e7ea"/>
+  <text x="444" y="698" font-family="Arial" font-size="13" fill="#6b7280">Subtotal</text>
+  <text x="680" y="698" font-family="Arial" font-size="13" fill="#111827">₹ 6,400</text>
+  <text x="444" y="728" font-family="Arial" font-size="13" fill="#6b7280">GST</text>
+  <text x="680" y="728" font-family="Arial" font-size="13" fill="#111827">₹ 1,552</text>
+  <text x="444" y="758" font-family="Arial" font-size="18" fill="#111827">Grand total</text>
+  <text x="680" y="758" font-family="Arial" font-size="18" fill="#111827">₹ 7,952</text>
+
+  <!-- Footer -->
+  <text x="48" y="940" font-family="Arial" font-size="12" fill="#6b7280">Notes: Thank you for your business.</text>
+</svg>

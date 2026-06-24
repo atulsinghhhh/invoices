@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900">
+  <rect width="1400" height="900" fill="#fff"/>
+  <rect x="24" y="24" width="1352" height="72" fill="#f3f4f6"/>
+  <text x="40" y="60" font-family="Arial" font-size="18" fill="#111827">Create invoice</text>
+
+  <!-- Customer / meta -->
+  <rect x="40" y="112" width="640" height="96" rx="8" fill="#f9fafb" stroke="#e5e7eb"/>
+  <text x="60" y="140" font-family="Arial" font-size="13" fill="#6b7280">Customer</text>
+  <rect x="720" y="112" width="520" height="96" rx="8" fill="#f9fafb" stroke="#e5e7eb"/>
+  <text x="740" y="140" font-family="Arial" font-size="13" fill="#6b7280">Invoice details (date, due)</text>
+
+  <!-- Line items header -->
+  <text x="40" y="236" font-family="Arial" font-size="16" fill="#111827">Items</text>
+  <rect x="40" y="252" width="1200" height="40" fill="#f3f4f6"/>
+  <g font-family="Arial" font-size="13" fill="#374151">
+    <text x="56" y="280">Item</text>
+    <text x="420" y="280">Quantity</text>
+    <text x="520" y="280">Unit price</text>
+    <text x="660" y="280">GST %</text>
+    <text x="760" y="280">Amount</text>
+    <text x="900" y="280">Total</text>
+  </g>
+
+  <!-- Sample line items -->
+  <g font-family="Arial" font-size="13" fill="#6b7280">
+    <text x="56" y="320">Design services</text>
+    <text x="420" y="320">2</text>
+    <text x="520" y="320">₹ 2,000</text>
+    <text x="660" y="320">18</text>
+    <text x="760" y="320">₹ 4,000</text>
+    <text x="900" y="320">₹ 4,720</text>
+
+    <text x="56" y="352">Hosting</text>
+    <text x="420" y="352">12</text>
+    <text x="520" y="352">₹ 200</text>
+    <text x="660" y="352">18</text>
+    <text x="760" y="352">₹ 2,400</text>
+    <text x="900" y="352">₹ 2,832</text>
+  </g>
+
+  <!-- Add line item button -->
+  <rect x="40" y="388" width="140" height="36" rx="6" fill="#111827"/>
+  <text x="64" y="413" font-family="Arial" font-size="13" fill="#fff">Add item</text>
+
+  <!-- Summary -->
+  <rect x="920" y="452" width="320" height="180" rx="8" fill="#f9fafb" stroke="#e5e7eb"/>
+  <text x="942" y="483" font-family="Arial" font-size="13" fill="#6b7280">Subtotal</text>
+  <text x="1188" y="483" font-family="Arial" font-size="13" fill="#111827">₹ 6,400</text>
+  <text x="942" y="513" font-family="Arial" font-size="13" fill="#6b7280">GST</text>
+  <text x="1188" y="513" font-family="Arial" font-size="13" fill="#111827">₹ 1,552</text>
+  <text x="942" y="543" font-family="Arial" font-size="16" fill="#111827">Grand total</text>
+  <text x="1188" y="543" font-family="Arial" font-size="16" fill="#111827">₹ 7,952</text>
+
+  <!-- Actions -->
+  <rect x="920" y="656" width="140" height="40" rx="8" fill="#6b7280"/>
+  <text x="946" y="683" font-family="Arial" font-size="14" fill="#fff">Save draft</text>
+  <rect x="1088" y="656" width="140" height="40" rx="8" fill="#111827"/>
+  <text x="1118" y="683" font-family="Arial" font-size="14" fill="#fff">Send</text>
+</svg>

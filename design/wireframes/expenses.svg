@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800">
+  <rect width="1200" height="800" fill="#fff"/>
+  <rect x="24" y="24" width="1152" height="64" fill="#f3f4f6"/>
+  <text x="40" y="64" font-family="Arial" font-size="18" fill="#111827">Expenses</text>
+
+  <!-- Filters -->
+  <rect x="40" y="104" width="320" height="44" rx="8" fill="#f9fafb" stroke="#e5e7eb"/>
+  <text x="56" y="132" font-family="Arial" font-size="12" fill="#6b7280">Search vendor</text>
+  <rect x="380" y="104" width="160" height="44" rx="8" fill="#fff" stroke="#e5e7eb"/>
+  <text x="396" y="132" font-family="Arial" font-size="12" fill="#6b7280">Category</text>
+
+  <!-- Monthly summary -->
+  <rect x="560" y="104" width="320" height="44" rx="8" fill="#111827"/>
+  <text x="576" y="132" font-family="Arial" font-size="12" fill="#fff">This month's total: ₹ 23,400</text>
+
+  <!-- Table -->
+  <rect x="40" y="164" width="1152" height="480" fill="#fff" stroke="#e6e7ea"/>
+  <g font-family="Arial" font-size="13" fill="#6b7280">
+    <text x="64" y="196">Vendor</text>
+    <text x="320" y="196">Category</text>
+    <text x="520" y="196">Date</text>
+    <text x="720" y="196">Amount</text>
+    <text x="920" y="196">GST Paid</text>
+
+    <text x="64" y="228">Cafe Goodfood</text>
+    <text x="320" y="228">FOOD_BEVERAGE</text>
+    <text x="520" y="228">2026-06-01</text>
+    <text x="720" y="228">₹ 450</text>
+    <text x="920" y="228">₹ 81</text>
+  </g>
+</svg>

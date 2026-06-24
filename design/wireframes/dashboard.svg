@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800">
+  <rect width="1200" height="800" fill="#ffffff"/>
+  <!-- Header -->
+  <rect x="0" y="0" width="1200" height="72" fill="#f3f4f6"/>
+  <text x="24" y="44" font-family="Arial" font-size="18" fill="#374151">Logo / App name</text>
+  <rect x="1050" y="18" width="120" height="36" rx="6" fill="#e5e7eb" />
+  <text x="1080" y="42" font-family="Arial" font-size="12" fill="#374151">Profile</text>
+
+  <!-- Sidebar -->
+  <rect x="0" y="72" width="220" height="728" fill="#f9fafb"/>
+  <g fill="#9ca3af" font-family="Arial" font-size="14">
+    <text x="24" y="112">Dashboard</text>
+    <text x="24" y="142">Invoices</text>
+    <text x="24" y="172">Customers</text>
+    <text x="24" y="202">Items</text>
+    <text x="24" y="232">Expenses</text>
+    <text x="24" y="262">Settings</text>
+  </g>
+
+  <!-- Main content -->
+  <rect x="240" y="96" width="920" height="640" fill="#ffffff" stroke="#e6e7ea"/>
+  <text x="260" y="132" font-family="Arial" font-size="20" fill="#111827">Overview</text>
+
+  <!-- Stats cards -->
+  <rect x="260" y="156" width="200" height="96" rx="8" fill="#f3f4f6"/>
+  <rect x="480" y="156" width="200" height="96" rx="8" fill="#f3f4f6"/>
+  <rect x="700" y="156" width="200" height="96" rx="8" fill="#f3f4f6"/>
+  <rect x="920" y="156" width="200" height="96" rx="8" fill="#f3f4f6"/>
+  <text x="280" y="190" font-family="Arial" font-size="14" fill="#374151">Outstanding</text>
+  <text x="280" y="215" font-family="Arial" font-size="20" fill="#111827">₹ 12,450</text>
+
+  <!-- Recent invoices list -->
+  <text x="260" y="280" font-family="Arial" font-size="16" fill="#111827">Recent invoices</text>
+  <rect x="260" y="300" width="860" height="320" fill="#ffffff" stroke="#e6e7ea"/>
+  <!-- rows -->
+  <g fill="#6b7280" font-family="Arial" font-size="13">
+    <text x="280" y="330">INV-0012</text>
+    <text x="380" y="330">Acme Corp</text>
+    <text x="620" y="330">₹ 4,500</text>
+    <text x="760" y="330">Due 2026-07-01</text>
+
+    <text x="280" y="360">INV-0011</text>
+    <text x="380" y="360">Beta Ltd</text>
+    <text x="620" y="360">₹ 8,000</text>
+    <text x="760" y="360">Paid</text>
+  </g>
+
+  <!-- Quick actions -->
+  <rect x="980" y="260" width="120" height="36" rx="6" fill="#111827"/>
+  <text x="1004" y="286" font-family="Arial" font-size="13" fill="#fff">New invoice</text>
+</svg>

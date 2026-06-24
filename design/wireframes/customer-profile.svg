@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900">
+  <rect width="1200" height="900" fill="#fff"/>
+  <text x="48" y="64" font-family="Arial" font-size="20" fill="#111827">Customer profile</text>
+
+  <!-- Customer meta -->
+  <rect x="48" y="96" width="520" height="120" fill="#f9fafb" stroke="#e6e7ea"/>
+  <text x="72" y="132" font-family="Arial" font-size="14" fill="#374151">Acme Corp</text>
+  <text x="72" y="154" font-family="Arial" font-size="13" fill="#6b7280">Phone: 9876543210</text>
+  <text x="72" y="176" font-family="Arial" font-size="13" fill="#6b7280">GSTIN: 22AAAAA0000A1Z5</text>
+
+  <!-- Invoices list -->
+  <rect x="48" y="236" width="1104" height="560" fill="#fff" stroke="#e6e7ea"/>
+  <text x="72" y="268" font-family="Arial" font-size="16" fill="#111827">Invoices</text>
+  <g font-family="Arial" font-size="13" fill="#6b7280">
+    <text x="72" y="296">INV-0012</text>
+    <text x="220" y="296">2026-06-01</text>
+    <text x="520" y="296">₹ 4,500</text>
+    <text x="720" y="296">SENT</text>
+
+    <text x="72" y="326">INV-0011</text>
+    <text x="220" y="326">2026-05-10</text>
+    <text x="520" y="326">₹ 8,000</text>
+    <text x="720" y="326">PAID</text>
+  </g>
+</svg>

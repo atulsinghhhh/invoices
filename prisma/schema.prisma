@@ -1,0 +1,202 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  name         String
+  email        String   @unique
+  phone        String
+  password     String?
+  avatar_url   String?
+  joining_date DateTime @default(now())
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  business     Business?
+}
+
+model Business {
+  id               Int              @id @default(autoincrement())
+  userId           Int              @unique
+  user             User             @relation(fields: [userId], references: [id])
+
+  gstin            String
+  legalName        String?
+  tradeName        String?
+  registrationType String?
+
+  state            String
+  address          String
+  stateCode        String
+  city             String?
+  pinCode          String?
+
+  logoUrl          String?
+  setupCompleted   Boolean          @default(false)
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+
+  settings         BusinessSettings?
+  customers        Customer[]
+  invoices         Invoice[]
+  itemCatalog      ItemCatalog[]
+  expenses         Expense[]
+}
+
+model BusinessSettings {
+  id                Int      @id @default(autoincrement())
+  businessId        Int      @unique
+  business          Business @relation(fields: [businessId], references: [id])
+
+  bankName          String?
+  accountNo         String?
+  ifscCode          String?
+  accountHolderName String?
+
+  defaultGstRate    Float?
+  reminderDays      Int      @default(7)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+enum InvoiceStatus {
+  DRAFT
+  SENT
+  VIEWED
+  PAID
+  OVERDUE
+}
+
+model Customer {
+  id         Int      @id @default(autoincrement())
+  businessId Int
+  business   Business @relation(fields: [businessId], references: [id])
+
+  name       String
+  phone      String
+  gstin      String?
+  state      String?
+  stateCode  String?
+
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  invoices   Invoice[]
+}
+
+model Invoice {
+  id            Int           @id @default(autoincrement())
+  invoiceNumber String
+  businessId    Int
+  business      Business      @relation(fields: [businessId], references: [id])
+  customerId    Int
+  customer      Customer      @relation(fields: [customerId], references: [id])
+
+  invoiceDate   DateTime      @default(now())
+  dueDate       DateTime
+  status        InvoiceStatus @default(DRAFT)
+
+  notes         String?
+  discount      Float         @default(0)
+
+  subtotal      Float         @default(0)
+  totalGst      Float         @default(0)
+  grandTotal    Float         @default(0)
+
+  isInterstate  Boolean       @default(false)
+
+  sentAt        DateTime?
+  viewedAt      DateTime?
+  paidAt        DateTime?
+
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  items         InvoiceItem[]
+
+  @@unique([businessId, invoiceNumber])
+}
+
+model InvoiceItem {
+  id          Int     @id @default(autoincrement())
+  invoiceId   Int
+  invoice     Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+
+  itemName    String
+  quantity    Float
+  unitPrice   Float
+  gstRate     Float   @default(0)
+
+  amount      Float
+  cgst        Float   @default(0)
+  sgst        Float   @default(0)
+  igst        Float   @default(0)
+  totalAmount Float
+
+  createdAt   DateTime @default(now())
+}
+
+model ItemCatalog {
+  id         Int      @id @default(autoincrement())
+  businessId Int
+  business   Business @relation(fields: [businessId], references: [id])
+
+  itemName   String
+  unitPrice  Float?
+  gstRate    Float?
+
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([businessId, itemName])
+}
+
+enum ExpenseCategory {
+  FOOD_BEVERAGE
+  TRAVEL
+  ACCOMMODATION
+  OFFICE_SUPPLIES
+  UTILITIES
+  MARKETING
+  PROFESSIONAL_SERVICES
+  EQUIPMENT
+  RENT
+  SALARY
+  TAX
+  INSURANCE
+  MAINTENANCE
+  ENTERTAINMENT
+  OTHER
+}
+
+model Expense {
+  id              Int             @id @default(autoincrement())
+  businessId      Int
+  business        Business        @relation(fields: [businessId], references: [id])
+
+  vendorName      String
+  amount          Float
+  date            DateTime
+  category        ExpenseCategory @default(OTHER)
+
+  gstNumber       String?
+  gstPaid         Float?
+
+  receiptImageUrl String?
+  notes           String?
+
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+}
