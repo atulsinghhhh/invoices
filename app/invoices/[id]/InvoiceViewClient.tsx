@@ -29,8 +29,36 @@ export default function InvoiceViewClient({ invoiceId, status }: { invoiceId: nu
     }
   };
 
+  const handleSendInvoice = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch(`/api/invoices/${invoiceId}/send`, {
+        method: "POST",
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to send invoice");
+
+      setCurrentStatus("SENT");
+      router.refresh();
+    } catch (err) {
+      console.error(err);
+      alert("Failed to send invoice");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="flex items-center gap-3">
+      {currentStatus === 'DRAFT' && (
+        <button
+          disabled={loading}
+          className="px-4 py-2 bg-[var(--accent)] hover:bg-[var(--accent-hover)] disabled:opacity-50 text-white text-sm font-medium rounded-full transition-colors cursor-pointer shadow-sm hover:shadow active:scale-[0.98]"
+          onClick={handleSendInvoice}
+        >
+          {loading ? "Sending..." : "Send Invoice"}
+        </button>
+      )}
       {currentStatus !== 'PAID' && (
         <button
           disabled={loading}
@@ -49,3 +77,4 @@ export default function InvoiceViewClient({ invoiceId, status }: { invoiceId: nu
     </div>
   );
 }
+
