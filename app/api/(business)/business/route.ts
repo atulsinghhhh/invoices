@@ -20,14 +20,14 @@ export async function PUT(req: NextRequest) {
         if (!userId || Number.isNaN(userId)) {
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
-        const { trade_name, address, state, StateCode, city, pinCode } = await req.json();
+        const { tradeName, address, state, stateCode, city, pinCode } = await req.json();
         const business = await prisma.business.update({
-            where: { id: userId }, // Hardcoded for now, should come from session or auth
+            where: { userId },
             data: {
-                trade_name,
+                tradeName,
                 address,
                 state,
-                StateCode,
+                stateCode,
                 city,
                 pinCode,
                 updatedAt: new Date(),

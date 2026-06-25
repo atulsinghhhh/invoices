@@ -17,26 +17,20 @@ export default async function InvoiceBuilderPage() {
     prisma.itemCatalog.findMany({ where: { businessId: business.id } }),
   ]);
 
-  // Compute next invoice number
-  const lastInvoice = await prisma.invoice.findFirst({
-    where: { businessId: business.id },
-    orderBy: { id: 'desc' },
-    select: { invoiceNumber: true }
+  // Compute next invoice number using InvoiceSequence
+  const sequence = await prisma.invoiceSequence.findUnique({
+    where: { businessId: business.id }
   });
-
-  let nextNumber = 'INV-0001';
-  if (lastInvoice?.invoiceNumber) {
-    const match = lastInvoice.invoiceNumber.match(/(\d+)$/);
-    if (match) {
-      nextNumber = `INV-${String(Number(match[1]) + 1).padStart(4, '0')}`;
-    }
-  }
+  const nextNumber = sequence
+    ? `${sequence.prefix}-${String(sequence.nextValue).padStart(4, '0')}`
+    : 'INV-0001';
 
   return (
     <InvoiceBuilderClient
       customers={customers}
       catalog={catalog}
       nextInvoiceNumber={nextNumber}
+      businessStateCode={business.stateCode}
       today={new Date().toISOString().split('T')[0]}
     />
   );

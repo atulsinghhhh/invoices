@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
 const VALID_STATUSES = ["DRAFT", "SENT", "VIEWED", "PAID", "OVERDUE"] as const;
@@ -10,7 +9,7 @@ export async function PUT(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
   const userId = Number(session?.user?.id);
   if (!userId || Number.isNaN(userId)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -40,6 +39,26 @@ export async function PUT(
       where: { id: existing.id },
       data: { status: status as InvoiceStatusValue, ...timestampField, updatedAt: new Date() },
     });
+
+    // If transitioning to SENT, schedule two reminder logs (+7 and +14 days from due date)
+    if (status === "SENT" && !existing.sentAt) {
+      const d1 = new Date(invoice.dueDate);
+      d1.setDate(d1.getDate() + 7);
+      const d2 = new Date(invoice.dueDate);
+      d2.setDate(d2.getDate() + 14);
+
+      // Clear any existing unsent reminder logs to prevent duplicates
+      await prisma.reminderLog.deleteMany({
+        where: { invoiceId: invoice.id, sent: false }
+      });
+
+      await prisma.reminderLog.createMany({
+        data: [
+          { invoiceId: invoice.id, scheduledAt: d1 },
+          { invoiceId: invoice.id, scheduledAt: d2 }
+        ]
+      });
+    }
 
     return NextResponse.json({ invoice });
   } catch (error) {

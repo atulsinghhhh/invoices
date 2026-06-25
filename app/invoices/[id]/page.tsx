@@ -44,12 +44,63 @@ export default async function InvoiceViewPage({ params }: { params: Promise<{ id
         </a>
         <div className="flex gap-3">
           <InvoiceViewClient invoiceId={invoice.id} status={invoice.status} />
-          <button
-            onClick={() => window.print()}
-            className="px-4 py-2 border border-[var(--border)] bg-[var(--surface)] hover:bg-gray-50 dark:hover:bg-gray-800 text-sm font-medium rounded-full transition-colors"
-          >
-            Print / PDF
-          </button>
+        </div>
+      </div>
+
+      {/* Step 6: Tracking status timeline */}
+      <div className="bg-[var(--surface)] backdrop-blur p-6 rounded-2xl border border-[var(--border)] mb-8 shadow-sm print:hidden">
+        <h3 className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-6 px-1">Invoice Status Tracker</h3>
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 relative">
+          <div className="hidden md:block absolute left-6 right-6 top-5 h-0.5 bg-gray-200 dark:bg-gray-700 -z-10" />
+          
+          {[
+            {
+              id: "DRAFT",
+              label: "Draft Created",
+              desc: "Invoice initial draft",
+              active: true,
+              date: invoice.createdAt,
+            },
+            {
+              id: "SENT",
+              label: "Sent",
+              desc: "Dispatched to client",
+              active: ["SENT", "VIEWED", "PAID", "OVERDUE"].includes(invoice.status),
+              date: invoice.sentAt,
+            },
+            {
+              id: "VIEWED",
+              label: "Viewed",
+              desc: "Opened by recipient",
+              active: ["VIEWED", "PAID"].includes(invoice.status),
+              date: invoice.viewedAt,
+            },
+            {
+              id: "PAID",
+              label: "Paid",
+              desc: "Settled in bank details",
+              active: invoice.status === "PAID",
+              date: invoice.paidAt,
+            },
+          ].map((s, i) => (
+            <div key={s.id} className="flex md:flex-col items-center gap-3 md:text-center md:flex-1 relative z-10">
+              <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm shadow-md transition-colors ${
+                s.active
+                  ? "bg-emerald-600 text-white"
+                  : "bg-gray-100 dark:bg-gray-800 text-gray-400"
+              }`}>
+                {s.active ? "✓" : i + 1}
+              </div>
+              <div>
+                <p className={`text-sm font-semibold ${s.active ? "text-[var(--foreground)]" : "text-gray-400"}`}>
+                  {s.label}
+                </p>
+                <p className="text-xs text-gray-400 mt-0.5 max-w-[150px] mx-auto leading-relaxed">
+                  {s.date ? s.date.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) : s.desc}
+                </p>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
 

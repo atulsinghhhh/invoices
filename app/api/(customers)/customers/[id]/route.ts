@@ -1,13 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
 export async function GET(
   _req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
   const userId = Number(session?.user?.id);
   if (!userId || Number.isNaN(userId)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -54,7 +53,7 @@ export async function PUT(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
   const userId = Number(session?.user?.id);
   if (!userId || Number.isNaN(userId)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -70,10 +69,10 @@ export async function PUT(
     });
     if (!existing) return NextResponse.json({ error: "Customer not found" }, { status: 404 });
 
-    const { name, phone, gstin, state, stateCode } = await req.json();
+    const { name, phone, gstin, state, stateCode, email, address } = await req.json();
     const customer = await prisma.customer.update({
       where: { id: existing.id },
-      data: { name, phone, gstin, state, stateCode, updatedAt: new Date() },
+      data: { name, phone, gstin, state, stateCode, email, address, updatedAt: new Date() },
     });
 
     return NextResponse.json({ customer });

@@ -1,12 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { auth } from "@/lib/auth";
 
 // Stub OCR — replace body with a call to Google Vision / AWS Textract / similar.
 // Expected POST: multipart/form-data with field `image` (File/Blob).
 // Returns: { vendorName, amount, date, gstNumber, gstPaid, category }
 export async function POST(req: NextRequest) {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
   if (!session?.user?.id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }

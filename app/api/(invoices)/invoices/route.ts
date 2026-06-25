@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { InvoiceStatus } from "@/app/generated/prisma/enums";
 
@@ -15,7 +14,7 @@ async function getBusinessForUser(userId: number) {
 }
 
 export async function GET(req: NextRequest) {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
   const userId = Number(session?.user?.id);
   if (!userId || Number.isNaN(userId)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -62,7 +61,7 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
   const userId = Number(session?.user?.id);
   if (!userId || Number.isNaN(userId)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -86,9 +85,14 @@ export async function POST(req: NextRequest) {
 
     const isInterstate = !!customer.stateCode && customer.stateCode !== business.stateCode;
 
-    // Generate sequential invoice number per business
-    const count = await prisma.invoice.count({ where: { businessId: business.id } });
-    const invoiceNumber = `INV-${String(count + 1).padStart(4, "0")}`;
+    // Generate sequential invoice number per business atomically using InvoiceSequence
+    const sequence = await prisma.invoiceSequence.upsert({
+      where: { businessId: business.id },
+      create: { businessId: business.id, nextValue: 2, prefix: "INV" },
+      update: { nextValue: { increment: 1 } },
+    });
+    const seqValue = sequence.nextValue - 1;
+    const invoiceNumber = `${sequence.prefix}-${String(seqValue).padStart(4, "0")}`;
 
     let subtotal = 0;
     let totalGst = 0;
@@ -140,6 +144,21 @@ export async function POST(req: NextRequest) {
       },
       include: { items: true, customer: true },
     });
+
+    // If status is SENT, schedule two reminder logs (+7 and +14 days from due date)
+    if (status === InvoiceStatus.SENT) {
+      const d1 = new Date(invoice.dueDate);
+      d1.setDate(d1.getDate() + 7);
+      const d2 = new Date(invoice.dueDate);
+      d2.setDate(d2.getDate() + 14);
+
+      await prisma.reminderLog.createMany({
+        data: [
+          { invoiceId: invoice.id, scheduledAt: d1 },
+          { invoiceId: invoice.id, scheduledAt: d2 }
+        ]
+      });
+    }
 
     // Upsert item catalog for autocomplete
     await Promise.all(

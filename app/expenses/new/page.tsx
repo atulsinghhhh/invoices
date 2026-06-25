@@ -1,52 +1,6 @@
 "use client";
-import React, { useState } from "react";
-import { useRouter } from "next/navigation";
 
-export default function NewExpensePage() {
-  const [vendorName, setVendorName] = useState("");
-  const [amount, setAmount] = useState(0);
-  const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
-  const [category, setCategory] = useState("OTHER");
-  const router = useRouter();
-
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    const body = { vendorName, amount: Number(amount), date, category };
-    const res = await fetch("/api/(expenses)/expenses", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
-    if (res.ok) {
-      router.push("/expenses");
-    } else {
-      const d = await res.json();
-      alert(d.error || "Failed to create expense");
-    }
-  }
-
-  return (
-    <div className="max-w-md">
-      <h1 className="text-2xl font-semibold mb-4">New expense</h1>
-      <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow-sm">
-        <label className="block mb-2 text-sm">Vendor</label>
-        <input value={vendorName} onChange={(e) => setVendorName(e.target.value)} className="w-full mb-3 border px-3 py-2 rounded" />
-        <label className="block mb-2 text-sm">Amount</label>
-        <input type="number" value={amount} onChange={(e) => setAmount(Number(e.target.value))} className="w-full mb-3 border px-3 py-2 rounded" />
-        <label className="block mb-2 text-sm">Date</label>
-        <input type="date" value={date} onChange={(e) => setDate(e.target.value)} className="w-full mb-3 border px-3 py-2 rounded" />
-        <label className="block mb-2 text-sm">Category</label>
-        <select value={category} onChange={(e) => setCategory(e.target.value)} className="w-full mb-4 border px-3 py-2 rounded">
-          <option>OTHER</option>
-          <option>FOOD_BEVERAGE</option>
-          <option>TRAVEL</option>
-          <option>OFFICE_SUPPLIES</option>
-        </select>
-
-        <button className="px-4 py-2 bg-gray-900 text-white rounded">Save</button>
-      </form>
-    </div>
-  );
-}
-"use client";
-
-import { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   ExpenseCategory,
